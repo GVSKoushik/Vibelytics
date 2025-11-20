@@ -47,9 +47,8 @@ This project utilizes **Unsupervised Machine Learning** to find patterns in a da
 ## 📸 Screenshots
 
 ### 1. The Dashboard & Search
-<img width="1919" height="862" alt="image" src="https://github.com/user-attachments/assets/196e180e-8b04-4c4f-bdf1-f48071f214c4" />
-<img width="1919" height="854" alt="image" src="https://github.com/user-attachments/assets/7bed12ed-865e-4447-87aa-2ab21d82f3d7" />
-
+<img width="1919" height="892" alt="image" src="https://github.com/user-attachments/assets/c7cd654f-3b90-4e4f-8aa4-f77c33951a79" />
+<img width="1919" height="956" alt="image" src="https://github.com/user-attachments/assets/724f8ed5-ba28-4d23-b314-05b2c1b2d413" />
 
 
 ### 2. Visualizing Song DNA (Radar Chart)
