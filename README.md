@@ -20,7 +20,7 @@ Traditional music taggers rely on metadata (artist names, year, album). **Vibely
 
 ## 🧠 How It Works
 
-This project utilizes **Supervised Deep Learning** trained on the famous **GTZAN Dataset** (1,000 audio tracks across 10 genres).
+This project utilizes **Supervised Deep Learning** trained on the famous **GTZAN Dataset**.
 
 1.  **Signal Processing (Librosa):**
     * The app loads the audio and extracts a 3-second window.
