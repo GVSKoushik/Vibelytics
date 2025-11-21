@@ -1,94 +1,97 @@
 # Vibelytics
-A music recommendation engine using clustering and streamlit.
+A deep learning music classifier and recommendation engine using CNNs and Streamlit.
 
-Vibelytics: The Mood-Based Music Recommender
+**Vibelytics: The AI That "Sees" Music**
 
-> **"Music is the language of the spirit." – But sometimes, you need an algorithm to translate it.**
+> **"Talking about music is like dancing about architecture." – Frank Zappa. So, we taught an AI to look at the 'architecture' of sound instead.**
 
 ## Overview
 
-Welcome to **Vibelytics**, a data science project that looks beyond genre and artist names to understand the "DNA" of a song. 
+Welcome to **Vibelytics**, an end-to-end Deep Learning project that bridges Computer Vision and Audio Analysis.
 
-Most recommendation engines rely on what other people are listening to. **Vibelytics** relies on the audio features of the music itself. By analyzing data points like *danceability, energy, acousticness,* and *valence*, this application groups songs into distinct "Mood Clusters" and allows users to discover music that mathematically matches their current vibe.
+Traditional music taggers rely on metadata (artist names, year, album). **Vibelytics** listens to the raw audio. By converting sound waves into **Mel Spectrograms** (visual representations of sound), this application treats music genre classification as an image recognition problem. It uses a Convolutional Neural Network (CNN) to predict the genre of an uploaded track and immediately connects to **Spotify** to recommend trending hits that match that vibe.
 
 ## 🚀 Key Features
 
-* **🔍 Search by Song:** Enter a track you love (e.g., "Blinding Lights"), see its audio visualization via a Radar Chart, and get 20 mathematically similar song recommendations.
-* **🎛️ "Vibe Dialing":** Don't have a song in mind? No problem. Use the interactive sliders to set your desired Energy, Mood (Valence), and Danceability to generate a custom playlist from scratch.
-* **📊 Data Visualization:** Interactive 3D PCA plots and Radar Charts to visualize how songs group together in a multi-dimensional space.
-* **🤖 Unsupervised Learning:** Powered by K-Means Clustering to automatically detect and categorize songs into mood groups.
+* **🎧 Audio-to-Visual Analysis:** Upload any MP3/WAV file and watch the app generate a real-time Mel Spectrogram, visualizing the "texture" of the sound (bass, treble, tempo) as a heatmap.
+* **🧠 Deep Learning Classifier:** Powered by a custom-trained CNN (Convolutional Neural Network) that analyzes the spectrogram to predict the genre with a confidence score.
+* **🎵 Smart Recommendations:** Once the genre is identified (e.g., "Jazz" or "Metal"), the app uses the **Spotify API** to fetch and display 5 top-trending tracks in that specific genre.
+* **⚡ Instant Deployment:** Built with **Streamlit** and tunneled via **Ngrok**, allowing the app to be accessed from a public URL instantly.
 
 ## 🧠 How It Works
 
-This project utilizes **Unsupervised Machine Learning** to find patterns in a dataset of over 32,000 Spotify songs.
+This project utilizes **Supervised Deep Learning** trained on the famous **GTZAN Dataset** (1,000 audio tracks across 10 genres).
 
-1.  **Data Preprocessing:** * Raw audio features (loudness, tempo, etc.) are normalized using `MinMaxScaler` to a 0-1 range to ensure no single feature dominates the model.
-2.  **The Elbow Method:** * I used the Elbow Method to determine the optimal number of clusters, resulting in **$k=6$** distinct musical moods.
-3.  **K-Means Clustering:**
-    * The algorithm grouped songs into 6 clusters, which I interpreted and labeled as:
-        * *Chill/Relaxed* 🍃
-        * *High Energy/Party* ⚡
-        * *Sad/Melancholic* 🌧️
-        * *Aggressive/Intense* 🔥
-        * *Happy/Pop* 😄
-        * *Danceable/Groovy* 💃
-4.  **Recommendation Engine:**
-    * When you select a song or adjust the sliders, the engine calculates the **Euclidean Distance** between your input and the dataset vectors to find the nearest neighbors (the most similar songs).
+1.  **Signal Processing (Librosa):**
+    * The app loads the audio and extracts a 3-second window.
+    * It computes the **Mel Spectrogram**, mapping frequencies to the human hearing scale (Mel scale).
+    * Amplitudes are converted to Decibels (dB) to create a high-contrast "image" of the sound.
+2.  **The "Eye" of the Model (CNN):**
+    * The spectrogram ($128 \times 128$ pixels) is fed into a Sequential CNN model.
+    * **Conv2D Layers** scan for features (rhythmic patterns, harmonic lines).
+    * **MaxPooling** reduces dimensionality.
+    * **Dense Layers** classify the features into one of 10 genres.
+3.  **The Recommendation Engine:**
+    * The predicted genre tag is sent as a query to the Spotify Web API.
+    * Metadata (Album art, Artist, Link) is retrieved and rendered in the UI.
 
 ## 🛠️ Tech Stack
 
 * **Language:** Python 3.x
 * **Web Framework:** Streamlit
-* **Data Manipulation:** Pandas, NumPy
-* **Machine Learning:** Scikit-Learn (K-Means, PCA, MinMaxScaler)
-* **Visualization:** Plotly (Interactive charts), Matplotlib, Seaborn
-* **Deployment:** PyNgrok (for tunneling)
+* **Deep Learning:** TensorFlow, Keras (CNN, Conv2D, MaxPool)
+* **Audio Processing:** Librosa, NumPy
+* **APIs:** Spotipy (Spotify Web API), Kaggle API (Data fetching)
+* **Deployment:** PyNgrok (Secure tunneling)
 
 ## 📸 Screenshots
 
-### 1. The Dashboard & Search
-<img width="1919" height="892" alt="image" src="https://github.com/user-attachments/assets/c7cd654f-3b90-4e4f-8aa4-f77c33951a79" />
-<img width="1919" height="956" alt="image" src="https://github.com/user-attachments/assets/724f8ed5-ba28-4d23-b314-05b2c1b2d413" />
+### 1. The Upload & Analysis Interface
+<img width="1917" height="943" alt="image" src="https://github.com/user-attachments/assets/c6a8f4f7-1085-4310-b6af-7a57ced94721" />
 
+### 2. Spectral Visualization & Results
+<img width="1055" height="500" alt="image" src="https://github.com/user-attachments/assets/d532ce7a-3718-4031-8501-16dbd68d2e60" />
 
-### 2. Visualizing Song DNA (Radar Chart)
-<img width="1919" height="962" alt="image" src="https://github.com/user-attachments/assets/0b9c788e-d98a-45a8-bf88-519b36ee8914" />
+## 💻 How to Run (Google Colab)
 
+This project is optimized for Google Colab to leverage GPU acceleration for training.
 
-## 💻 How to Run Locally
+1.  **Prerequisites**
+    * A `kaggle.json` file (for downloading the GTZAN dataset).
+    * Spotify Developer Credentials (Client ID & Secret).
+    * An Ngrok Auth Token.
 
-Follow these steps to get Vibelytics running on your machine:
+2.  **Open the Notebook**
+    * Upload the provided `.ipynb` notebook to Google Colab.
 
-1.  **Clone the repository**
-    ```bash
-    git clone [https://github.com/your-username/vibelytics.git](https://github.com/your-username/vibelytics.git)
-    cd vibelytics
-    ```
+3.  **Configure Credentials**
+    * Run the first cell to upload `kaggle.json`.
+    * In the `%%writefile app.py` cell, replace the placeholders:
+        ```python
+        CLIENT_ID="YOUR_SPOTIFY_ID"
+        CLIENT_SECRET="YOUR_SPOTIFY_SECRET"
+        ```
+    * In the final cell, replace the Ngrok token:
+        ```python
+        NGROK_TOKEN="YOUR_NGROK_TOKEN"
+        ```
 
-2.  **Install dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
-    *(Note: Ensure pandas, numpy, scikit-learn, matplotlib, seaborn, plotly, streamlit, and pyngrok are installed)*
+4.  **Run All Cells**
+    * The notebook will install dependencies, train the CNN model (approx 15 epochs), and save the model.
+    * Finally, it will launch Streamlit in the background.
 
-3.  **Run the Application**
-    ```bash
-    streamlit run app.py
-    ```
-
-4.  **Access the App**
-    * The app will open in your default browser at `http://localhost:8501`.
+5.  **Access the App**
+    * Click the `public_url` link (ending in `.ngrok-free.app`) generated in the output of the last cell.
 
 ## 🔮 Future Improvements
 
-* **Spotify API Integration:** To allow users to save the generated playlists directly to their Spotify account.
-* **Lyrics Analysis:** incorporating NLP (Natural Language Processing) to analyze the sentiment of the lyrics, adding another layer of accuracy to the mood detection.
-* **Hybrid Filtering:** Combining audio features with collaborative filtering (user ratings) for even better recommendations.
+* **Microphone Support:** Implement real-time audio capture so users can hum or play a song directly into the browser.
+* **Model Expansion:** Train on a larger dataset (like FMA) to support sub-genres (e.g., "Lo-Fi Beats" instead of just "Pop").
+* **Sliding Window Prediction:** Instead of analyzing just one 3-second slice, analyze the whole song and average the predictions for higher accuracy.
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/your-username/vibelytics/issues).
-
+Contributions, issues, and feature requests are welcome! Feel free to check.
 ---
 
-*Built with 🎧 and 🐍 Python by GVS KOUSHIK*
+*Built with 🎧, TensorFlow, and 🐍 Python by GVS KOUSHIK*
