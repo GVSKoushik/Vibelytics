@@ -46,10 +46,10 @@ This project utilizes **Supervised Deep Learning** trained on the famous **GTZAN
 
 ## 📸 Screenshots
 
-### 1. The Upload & Analysis Interface
+### The Upload, Analysis Interface & Spectral Visualization
 <img width="1917" height="943" alt="image" src="https://github.com/user-attachments/assets/c6a8f4f7-1085-4310-b6af-7a57ced94721" />
 
-### 2. Spectral Visualization & Results
+### Results
 <img width="1055" height="500" alt="image" src="https://github.com/user-attachments/assets/d532ce7a-3718-4031-8501-16dbd68d2e60" />
 
 ## 💻 How to Run (Google Colab)
